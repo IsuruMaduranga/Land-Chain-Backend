@@ -2,7 +2,7 @@
   "name": "landchain-backend",
   "version": "1.0.0",
   "description": "Node.js backend for Land Chain the blockchain based land selling and registration platform",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/IsuruMaduranga/Land-Chain-Backend/issues"
   },
-  "homepage": "https://github.com/IsuruMaduranga/Land-Chain-Backend#readme"
+  "homepage": "https://github.com/IsuruMaduranga/Land-Chain-Backend#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "morgan": "^1.9.1"
+  }
 }
