@@ -20,5 +20,20 @@ router.post('/',async (req,res)=>{
 
 });
 
+router.post('/login',async (req,res)=>{
+    const body = _.pick(req.body,['nic','password'])
+    
+    User.findByCredentials(body.nic,body.password).then(user=>{
+        user.generateAuthToken().then(token=>{
+            res.header('x-auth',token).send(user)
+        })
+    }).catch(e=>{
+        res.status(400).send()
+    })
+
+});
+
+
+
 module.exports = router;
 

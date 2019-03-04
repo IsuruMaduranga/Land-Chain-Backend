@@ -77,6 +77,56 @@ UserSchema.methods.toJSON = function(){
 }
 
 
+
+UserSchema.methods.removeToken =  function(token){
+    const user = this
+    return user.update({
+        $pull:{
+            tokens:{
+                token: token
+            }
+        }
+    })
+}
+
+UserSchema.statics.findByToken =  function(token){
+    const User = this
+    let decoded
+
+    try{
+        decoded = jwt.verify(token,process.env.JWT_SECRET)
+    }catch(e){
+        return Promise.reject()
+    }
+
+    return User.findOne({
+        _id:decoded._id,
+        'tokens.token':token,
+        'tokens.access':'auth'
+    })
+}
+
+UserSchema.statics.findByCredentials =  function(nic,password){
+    const User = this;
+
+    return User.findOne({nic}).then((user)=>{
+        if(!user){
+            return Promise.reject('Invalid nic');
+        }
+
+        return new Promise((resolve,reject)=>{
+            bcrypt.compare(password,user.password,(err,res)=>{
+                if(res){
+                    resolve(user);
+                }else{
+                    reject('Invalid password');
+                }
+            })
+        })
+    })
+
+}
+
 //runs before save event occurs
 UserSchema.pre('save',function(next){
     const user = this
