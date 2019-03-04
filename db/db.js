@@ -1,6 +1,7 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const config = require('../config/config.json');
 
-mongoose.connect("mongodb://localhost:27017/LandChain" , { useNewUrlParser: true })
+mongoose.connect( config.dbUrl , { useNewUrlParser: true });
 
 module.exports = {
     mongoose

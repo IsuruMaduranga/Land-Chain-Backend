@@ -52,7 +52,11 @@ const UserSchema = new mongoose.Schema({
             type: String,
             required: true
         }
-    }]
+    }],
+    type:{
+        type: String,
+        required: true
+    }
 });
 
 
@@ -73,7 +77,7 @@ UserSchema.methods.toJSON = function(){
     const user = this
     const userObject = user.toObject()
 
-    return _.pick(userObject,['_id','nic','email','firstname','lastName'])
+    return _.pick(userObject,['_id','nic','email','firstName','lastName','type'])
 }
 
 
@@ -101,8 +105,7 @@ UserSchema.statics.findByToken =  function(token){
 
     return User.findOne({
         _id:decoded._id,
-        'tokens.token':token,
-        'tokens.access':'auth'
+        'tokens.token':token
     })
 }
 

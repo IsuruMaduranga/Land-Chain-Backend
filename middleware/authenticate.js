@@ -1,5 +1,15 @@
 let {User} = require('../models/user');
 
+const allowUser = (req,res,next)=>{
+    req.allowedUsers.push('user');
+    next();
+}
+
+const allowAdmin = (req,res,next)=>{
+    req.allowedUsers.push('admin');
+    next();
+}
+
 const authenticate = (req,res,next)=>{
     const token = req.header('x-auth')
     
@@ -7,6 +17,8 @@ const authenticate = (req,res,next)=>{
         
         if(!user){
             return Promise.reject()  //catch block will run
+        }else if(!(user.type in req.allowedUsers)){
+            return Promise.reject();
         }
 
         req.user = user
@@ -17,4 +29,4 @@ const authenticate = (req,res,next)=>{
     })
 }
 
-module.exports={authenticate}
+module.exports={allowUser,allowAdmin,authenticate}

@@ -3,19 +3,25 @@ const _ = require('lodash');
 
 const {mongoose} = require('../db/db');
 const {User} = require('../models/user');
+
+
+//authentication middlewares
 const {authenticate} =  require('../middleware/authenticate');
+const {allowedUser} =  require('../middleware/authenticate');
+const {allowAdmin} =  require('../middleware/authenticate');
 
 const router = express.Router();
 
 router.post('/',async (req,res)=>{
 
     const body = _.pick(req.body,['nic','email','password','firstName','lastName']);
+    body.type = "user";
     const user = new User(body);
 
     user.save().then(()=>{
-        return user.generateAuthToken()
+        return user.generateAuthToken();
     }).then((token)=>{
-        res.header('x-auth',token).send(user)
+        res.header('x-auth',token).send(user);
     })
     .catch(e=>res.status(400).send(e)) 
 
