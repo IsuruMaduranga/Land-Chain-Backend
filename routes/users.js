@@ -3,6 +3,7 @@ const _ = require('lodash');
 
 const {mongoose} = require('../db/db');
 const {User} = require('../models/user');
+const {authenticate} =  require('../middleware/authenticate');
 
 const router = express.Router();
 
@@ -33,7 +34,9 @@ router.post('/login',async (req,res)=>{
 
 });
 
-
-
+router.get('/me',authenticate,(req,res)=>{
+    res.send(req.user)
+ })
+ 
 module.exports = router;
 

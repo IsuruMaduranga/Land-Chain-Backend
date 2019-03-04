@@ -13,8 +13,8 @@ const app = express();
 app.use(morgan('tiny'));
 app.use(express.json());
 
-// //static
-// app.use('/', express.static('dist'));
+//static
+app.use('/', express.static('dist'));
 
 //routes
 app.use('/api/users',users);
