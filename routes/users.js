@@ -12,7 +12,7 @@ const {allowAdmin} =  require('../middleware/authenticate');
 
 const router = express.Router();
 
-router.post('/',async (req,res)=>{
+router.post('/signup',async (req,res)=>{
 
     const body = _.pick(req.body,['nic','email','password','firstName','lastName']);
     body.type = "user";
@@ -32,10 +32,10 @@ router.post('/login',async (req,res)=>{
     
     User.findByCredentials(body.nic,body.password).then(user=>{
         user.generateAuthToken().then(token=>{
-            res.header('x-auth',token).send(user)
+            res.header('x-auth',token).send({token:token});
         })
     }).catch(e=>{
-        res.status(400).send()
+        res.status(400).send({token:false});
     })
 
 });
