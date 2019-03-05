@@ -8,6 +8,7 @@ var cors = require('cors')
 
 //importing routes
 const users = require('./routes/users');
+const blockchain = require('./routes/blockchain');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use('/', express.static('dist'));
 
 //routes
 app.use('/api/users',users);
+app.use('/api/blockchain',blockchain);
 
 app.listen(4000,()=>{
     console.log('server started on port 4000');

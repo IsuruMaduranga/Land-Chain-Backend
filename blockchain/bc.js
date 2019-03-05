@@ -28,7 +28,11 @@ let registerLand = function(id,ownerId){
       .catch(function (error) {
         return error;
       });
-    
+}
+
+module.exports={
+  createUser,
+  registerLand
 }
 
 
