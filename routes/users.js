@@ -61,7 +61,12 @@ router.post('/login',async (req,res)=>{
 
 router.get('/me',authenticate,(req,res)=>{
     res.send(req.user)
- })
+});
+
+router.get('/logout',allowUser,allowAdmin,authenticate,(req,res)=>{
+    req.user.removeToken(req.header('x-auth'));
+    res.send();
+});
  
 module.exports = router;
 
