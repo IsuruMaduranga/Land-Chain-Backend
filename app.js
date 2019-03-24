@@ -17,7 +17,7 @@ app.use(cors());
 app.use(morgan('tiny'));
 app.use(express.json());
 app.use((req,res,next)=>{
-    req.allowedUsers = {};
+    req.allowedUsers = [];
     next();
 });
 

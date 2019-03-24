@@ -7,7 +7,7 @@ const {User} = require('../models/user');
 
 //authentication middlewares
 const {authenticate} =  require('../middleware/authenticate');
-const {allowedUser} =  require('../middleware/authenticate');
+const {allowUser} =  require('../middleware/authenticate');
 const {allowAdmin} =  require('../middleware/authenticate');
 
 const router = express.Router();
@@ -21,9 +21,28 @@ router.post('/signup',async (req,res)=>{
     user.save().then(()=>{
         return user.generateAuthToken();
     }).then((token)=>{
-        res.header('x-auth',token).send(user);
+        res.json({token:token});
     })
-    .catch(e=>res.status(400).send(e)) 
+    .catch(e=>{
+        console.log(e);
+        res.status(400).send(e)}
+    ) 
+
+});
+
+router.post('/registerAdmin',allowAdmin,authenticate,async (req,res)=>{
+
+    const body = _.pick(req.body,['nic','email','password','firstName','lastName']);
+    body.type = "admin";
+    const user = new User(body);
+
+    user.save().then(()=>{
+        res.json({token:true});
+    })
+    .catch(e=>{
+        console.log(e);
+        res.status(400).send(e)}
+    ) 
 
 });
 
@@ -32,7 +51,7 @@ router.post('/login',async (req,res)=>{
     
     User.findByCredentials(body.nic,body.password).then(user=>{
         user.generateAuthToken().then(token=>{
-            res.header('x-auth',token).send({token:token});
+            res.json({token:token});
         })
     }).catch(e=>{
         res.status(400).send({token:false});

@@ -4,12 +4,12 @@ const axios = require('axios');
 
 //authentication middlewares
 const {authenticate} =  require('../middleware/authenticate');
-const {allowedUser} =  require('../middleware/authenticate');
+const {alloweUser} =  require('../middleware/authenticate');
 const {allowAdmin} =  require('../middleware/authenticate');
 
 const router = express.Router();
 
-router.post('/registerUser',async (req,res)=>{
+router.post('/registerUser',allowAdmin,authenticate,async (req,res)=>{
 
     axios.post('http://localhost:3000/api/User',{
         $class: "org.landchain.CreateUser",
@@ -24,7 +24,7 @@ router.post('/registerUser',async (req,res)=>{
 
 });
 
-router.post('/registerLand',async (req,res)=>{
+router.post('/registerLand',allowAdmin,authenticate,async (req,res)=>{
 
     axios.post('http://localhost:3000/api/RegisterLand',{
         "$class": "org.landchain.RegisterLand",
@@ -40,7 +40,7 @@ router.post('/registerLand',async (req,res)=>{
 
 });
 
-router.post('/changeOwner',async (req,res)=>{
+router.post('/changeOwner',allowAdmin,authenticate,async (req,res)=>{
 
     axios.post('http://localhost:3000/api/ChangeOwner',{
         $class: "org.landchain.ChangeOwner",
@@ -56,7 +56,7 @@ router.post('/changeOwner',async (req,res)=>{
 
 });
 
-router.get('/users',async (req,res)=>{
+router.get('/users',allowAdmin,authenticate,async (req,res)=>{
 
     axios.get('http://localhost:3000/api/User')
       .then(function (response) {

@@ -11,13 +11,14 @@ const allowAdmin = (req,res,next)=>{
 }
 
 const authenticate = (req,res,next)=>{
-    const token = req.header('x-auth')
+    const token = req.header('x-auth');
+    console.log(token);
     
     User.findByToken(token).then((user)=>{
         
         if(!user){
             return Promise.reject()  //catch block will run
-        }else if(!(user.type in req.allowedUsers)){
+        }else if(!req.allowedUsers.includes(user.type)){
             return Promise.reject();
         }
 

@@ -44,10 +44,6 @@ const UserSchema = new mongoose.Schema({
         minlength: 6
     },
     tokens: [{
-        access: {
-            type: String,
-            required: true
-        },
         token:{
             type: String,
             required: true
@@ -62,10 +58,9 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.methods.generateAuthToken = function(){
     const user = this
-    const access = 'auth'
-    const token = jwt.sign({_id: user._id.toHexString(),access},'secret').toString()
+    const token = jwt.sign({_id: user._id.toHexString(),type:user.type},'secret').toString()
 
-    user.tokens.push({access,token})
+    user.tokens.push({token})
 
     return user.save().then(()=>{
         return token
