@@ -51,7 +51,12 @@ const UserSchema = new mongoose.Schema({
     }],
     type:{
         type: String,
-        required: true
+        required: true,
+        validate:{
+            validator: function(v){
+                return /^(admin|user)$/.test(v);
+            }
+        }
     }
 });
 
