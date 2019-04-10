@@ -1,5 +1,6 @@
 const express =  require('express');
 const _ = require('lodash');
+const axios = require('axios');
 
 const {mongoose} = require('../db/db');
 const {User} = require('../models/user');
@@ -18,7 +19,14 @@ router.post('/signup',async (req,res)=>{
     body.type = "user";
     const user = new User(body);
 
-    user.save().then(()=>{
+    axios.post('http://localhost:3000/api/CreateUser',{
+        $class: "org.landchain.CreateUser",
+        NIC: req.body.nic
+    })
+    .then((response) => {
+        return user.save()
+    })
+    .then(()=>{
         return user.generateAuthToken();
     }).then((token)=>{
         res.json({token:token});

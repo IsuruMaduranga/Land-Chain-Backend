@@ -7,7 +7,6 @@ const AdSchema = new mongoose.Schema({
         type:String,
         required:true,
         minlength:1,
-        unique:true,
         validate:{
             validator: function(v){
                 return /^[0-9]{9}V$/.test(v);
@@ -35,9 +34,19 @@ const AdSchema = new mongoose.Schema({
             message: 'Phone number is not valid!'
         }
     },
+    size:{
+        type:String,
+        required:true,
+        validate:{
+            validator: function(v){
+                return /^[0-9]+$/.test(v);
+            },
+            message: 'Phone number is not valid!'
+        }
+    },
     description:{
         type:String,
-        maxlength:100
+        maxlength:1000
     },
     price:{
         type:String,
@@ -52,20 +61,24 @@ const AdSchema = new mongoose.Schema({
     status:{
         type: String,
         required: true,
+        default:'active',
         validate:{
             validator: function(v){
-                return /^(valid|invalid)$/.test(v);
+                return /^(active|processing|sold)$/.test(v);
             }
         }
-    }
+    },
+    createdAt:{ type: Date, default: Date.now }
 
 });
 
-UserSchema.statics.getAll =  function(id){
+AdSchema.statics.getAll =  function(id){
     return Ad.find({ownerId:id});
 }
 
-
+AdSchema.statics.getAll =  function(){
+    return Ad.find();
+}
 
 const Ad =  mongoose.model('Ad', AdSchema)
 
