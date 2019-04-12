@@ -48,8 +48,11 @@ router.post('/registerAdmin',allowAdmin,authenticate,async (req,res)=>{
         res.json({token:true});
     })
     .catch(e=>{
-        console.log(e);
-        res.status(400).send(e)}
+        res.json({
+            error:true,
+            msg:e.message
+        })
+    }
     ) 
 
 });

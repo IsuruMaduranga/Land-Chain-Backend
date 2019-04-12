@@ -56,7 +56,7 @@ router.get('/', allowUser,allowAdmin, authenticate, async (req, res) => {
 
 });
 
-router.get('/my', allowUser,allowAdmin, authenticate, async (req, res) => {
+router.get('/my', allowUser, authenticate, async (req, res) => {
 
   Ad.getAds(req.user.nic).then(ads=>{
     res.send(ads);
@@ -66,6 +66,29 @@ router.get('/my', allowUser,allowAdmin, authenticate, async (req, res) => {
     res.json({
       error:true,
       msg: "Database error"
+    })
+  })
+
+});
+
+router.delete('/:id', allowUser, authenticate, async (req, res) => {
+  Ad.findOne({_id:req.params.id})
+  .then(ad=>{
+    if(ad.ownerId===req.user.nic){
+      return Ad.deleteOne({_id:req.params.id})
+    }else{
+      throw new Error('Unauthorized')
+    }
+  })
+  .then(ad=>{
+    res.send(ad);    
+  })
+  .catch(e=>{
+    console.log(e);
+    res.status(401)
+    res.json({
+      error:true,
+      msg: "Unauthorized"
     })
   })
 

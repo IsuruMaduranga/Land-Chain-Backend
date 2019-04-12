@@ -76,6 +76,7 @@ AdSchema.statics.getAllAds =  function(id){
     return Ad.find({ownerId:{$ne:id},status:"active"});
 }
 
+
 const Ad =  mongoose.model('Ad', AdSchema)
 
 module.exports={
