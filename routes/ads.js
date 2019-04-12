@@ -23,7 +23,7 @@ router.post('/', allowUser, authenticate, async (req, res) => {
         if(!(req.user.nic === land.owner.slice(-10,) & land.status === "VALID") ){
             throw new Error('Unauthorized');
         }
-        const data = _.pick(req.body,['landId','size','phone','price','address','description']);
+        const data = _.pick(req.body,['landId','size','phone','price','city','description']);
         data.ownerId = req.user.nic;
         const ad = new Ad(data);
 
@@ -38,6 +38,36 @@ router.post('/', allowUser, authenticate, async (req, res) => {
         msg: error.message
       }));
     });
+
+});
+
+router.get('/', allowUser,allowAdmin, authenticate, async (req, res) => {
+
+  Ad.getAllAds(req.user.nic).then(ads=>{
+    res.send(ads);
+  })
+  .catch(e=>{
+    res.status(504)
+    res.json({
+      error:true,
+      msg: "Database error"
+    })
+  })
+
+});
+
+router.get('/my', allowUser,allowAdmin, authenticate, async (req, res) => {
+
+  Ad.getAds(req.user.nic).then(ads=>{
+    res.send(ads);
+  })
+  .catch(e=>{
+    res.status(504)
+    res.json({
+      error:true,
+      msg: "Database error"
+    })
+  })
 
 });
 

@@ -19,7 +19,7 @@ const AdSchema = new mongoose.Schema({
         required:true,
         minlength:1
     },
-    address:{
+    city:{
         type:String,
         required:true,
         minlength:1
@@ -43,10 +43,6 @@ const AdSchema = new mongoose.Schema({
             },
             message: 'Phone number is not valid!'
         }
-    },
-    description:{
-        type:String,
-        maxlength:1000
     },
     price:{
         type:String,
@@ -72,12 +68,12 @@ const AdSchema = new mongoose.Schema({
 
 });
 
-AdSchema.statics.getAll =  function(id){
+AdSchema.statics.getAds =  function(id){
     return Ad.find({ownerId:id});
 }
 
-AdSchema.statics.getAll =  function(){
-    return Ad.find();
+AdSchema.statics.getAllAds =  function(id){
+    return Ad.find({ownerId:{$ne:id},status:"active"});
 }
 
 const Ad =  mongoose.model('Ad', AdSchema)
