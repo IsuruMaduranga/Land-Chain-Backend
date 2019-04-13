@@ -32,9 +32,12 @@ router.post('/signup',async (req,res)=>{
         res.json({token:token});
     })
     .catch(e=>{
-        console.log(e);
-        res.status(400).send(e)}
-    ) 
+        if(e.code=="11000"){
+            res.status(400).send({message:"NIC or email already exists!"})
+        }else{
+            res.status(400).send({message:e.message})
+        }  
+    });
 
 });
 
@@ -48,12 +51,12 @@ router.post('/registerAdmin',allowAdmin,authenticate,async (req,res)=>{
         res.json({token:true});
     })
     .catch(e=>{
-        res.json({
-            error:true,
-            msg:e.message
-        })
-    }
-    ) 
+        if(e.code=="11000"){
+            res.status(400).send({message:"NIC or email already exists!"})
+        }else{
+            res.status(400).send({message:e.message})
+        }  
+    }); 
 
 });
 
