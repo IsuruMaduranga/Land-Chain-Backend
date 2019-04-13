@@ -106,9 +106,7 @@ router.get('/landsOfUser', allowAdmin,allowUser, authenticate, async (req, res) 
       res.send(response.data);
     })
     .catch(function (error) {
-      res.send(JSON.stringify({
-        error: true
-      }));
+      res.status(504).json({message:'Blockchain error!'})
     });
 });
 
@@ -125,11 +123,7 @@ router.post('/landHistory', allowAdmin,allowUser, authenticate, async (req, res)
       res.send(response.data);
     })
     .catch(function (error) {
-      console.log(error);
-      res.send(JSON.stringify({
-        error: true,
-        msg:error.message
-      }));
+      res.status(400).send({message:error.message});
     });
 });
 

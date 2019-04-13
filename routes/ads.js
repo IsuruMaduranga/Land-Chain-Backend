@@ -32,11 +32,7 @@ router.post('/', allowUser, authenticate, async (req, res) => {
         res.send(response);
     })
     .catch(function (error) {
-        console.log(error);
-      res.send(JSON.stringify({
-        error: true,
-        msg: error.message
-      }));
+      res.status(400).json({message: error.message});
     });
 
 });
@@ -49,8 +45,7 @@ router.get('/', allowUser,allowAdmin, authenticate, async (req, res) => {
   .catch(e=>{
     res.status(504)
     res.json({
-      error:true,
-      msg: "Database error"
+      message: "Database error"
     })
   })
 
@@ -64,8 +59,7 @@ router.get('/my', allowUser, authenticate, async (req, res) => {
   .catch(e=>{
     res.status(504)
     res.json({
-      error:true,
-      msg: "Database error"
+      message: "Database error"
     })
   })
 
@@ -87,8 +81,7 @@ router.delete('/:id', allowUser, authenticate, async (req, res) => {
     console.log(e);
     res.status(401)
     res.json({
-      error:true,
-      msg: "Unauthorized"
+      message: "Unauthorized"
     })
   })
 

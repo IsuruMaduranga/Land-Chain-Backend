@@ -65,7 +65,7 @@ router.post('/login',async (req,res)=>{
             res.json({token:token});
         })
     }).catch(e=>{
-        res.status(400).send({token:false});
+        res.status(400).json({message:"Invalid NIC or password!"});
     })
 
 });
@@ -75,8 +75,11 @@ router.get('/me',authenticate,(req,res)=>{
 });
 
 router.get('/logout',allowUser,allowAdmin,authenticate,(req,res)=>{
-    req.user.removeToken(req.header('x-auth'));
-    res.send();
+    req.user.removeToken(req.header('x-auth')).then(response=>{
+        res.send(response)
+    }).catch(e=>{
+        res.status(504).json({message:e.message});
+    })
 });
  
 module.exports = router;
