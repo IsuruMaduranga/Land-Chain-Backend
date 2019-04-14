@@ -1,17 +1,23 @@
 'use strict';
 
-require('./db/db')
+require('./db/db');
 const express =  require('express');
 const morgan = require('morgan');
+const cors = require('cors');
+const config = require('config');
+const app = express();
 
-var cors = require('cors')
+if(!config.get('jwtPK')){
+    console.error('FATAL ERROR: jwtPK is not defined!');
+    process.exit(1); 
+}
 
 //importing routes
 const users = require('./routes/users');
 const blockchain = require('./routes/blockchain');
 const ads =  require('./routes/ads');
 
-const app = express();
+
 
 //middleware
 app.use(cors());
@@ -29,7 +35,7 @@ app.use('/', express.static('dist'));
 //routes
 app.use('/api/users',users);
 app.use('/api/blockchain',blockchain);
-app.use('/api/ads',ads)
+app.use('/api/ads',ads);
 
 app.listen(4000,()=>{
     console.log('server started on port 4000');

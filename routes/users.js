@@ -77,13 +77,6 @@ router.get('/me',authenticate,(req,res)=>{
     res.send(req.user)
 });
 
-router.get('/logout',allowUser,allowAdmin,authenticate,(req,res)=>{
-    req.user.removeToken(req.header('x-auth')).then(response=>{
-        res.send(response)
-    }).catch(e=>{
-        res.status(504).json({message:e.message});
-    })
-});
  
 module.exports = router;
 

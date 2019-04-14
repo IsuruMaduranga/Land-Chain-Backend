@@ -3,6 +3,7 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
+const config = require('config'); 
 
 const UserSchema = new mongoose.Schema({
     nic:{
@@ -63,7 +64,7 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.methods.generateAuthToken = function(){
     const user = this
-    const token = jwt.sign({_id: user._id.toHexString(),type:user.type,nic:user.nic},'secret',{expiresIn:'24h'}).toString()
+    const token = jwt.sign({_id: user._id.toHexString(),type:user.type,nic:user.nic},config.get('jwtPK'),{expiresIn:'24h'}).toString()
 
     user.tokens.push({token})
 
@@ -104,8 +105,7 @@ UserSchema.statics.findByToken =  function(token){
     }
 
     return User.findOne({
-        _id:decoded._id,
-        'tokens.token':token
+        _id:decoded._id
     })
 }
 
