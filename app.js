@@ -1,6 +1,6 @@
 'use strict';
 
-require('./db/db');
+require('./db/db')();
 const express =  require('express');
 const morgan = require('morgan');
 const cors = require('cors');

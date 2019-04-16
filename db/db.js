@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
-const conf = require('../config/config.json');
+const config = require('config');
 
-mongoose.connect(conf.dbUrl);
-
-module.exports = {
-    mongoose
+module.exports = function(){
+    mongoose.connect(config.get('db'),{ useNewUrlParser: true })
+    .then(() => { 
+        console.log(`connected to ${config.get('db')}`) 
+    });
 }

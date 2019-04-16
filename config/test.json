@@ -1,5 +1,5 @@
 {
     "jwtPK":"",
-    "db" : "mongodb://127.0.0.1:27017/LandChain",
+    "db" : "mongodb://127.0.0.1:27017/LandChain_test",
     "blockchain": "http://localhost:3000"
-}
+}  

@@ -1,4 +1,0 @@
-{
-    "dbUrl" : "mongodb://127.0.0.1:27017/LandChain",
-    "blockchainUrl": "http://localhost:3000"
-}
