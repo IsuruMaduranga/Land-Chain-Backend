@@ -16,16 +16,20 @@ const authenticate = (req,res,next)=>{
     User.findByToken(token).then((user)=>{
         
         if(!user){
-            return Promise.reject()  //catch block will run
+            throw new Error('Authentication needed');
         }else if(!req.allowedUsers.includes(user.type)){
-            return Promise.reject();
+            throw new Error('Prohibited');
         }
 
         req.user = user
         req.token = token
         next()
     }).catch(e=>{
-        res.status(401).send() //authentication needed
+        if(e.message==='Authentication needed'){
+            res.status(401).send({message:e.message});
+        }else if(e.message==='Prohibited'){
+            res.status(403).send({message:e.message});
+        } 
     })
 }
 

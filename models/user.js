@@ -58,8 +58,7 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.methods.generateAuthToken = function(){
     const user = this
-    const token = jwt.sign({_id: user._id.toHexString(),type:user.type,nic:user.nic},config.get('jwtPK'),{expiresIn:'24h'}).toString()
-    return token 
+    return jwt.sign({_id: user._id.toHexString(),type:user.type,nic:user.nic},config.get('jwtPK'),{expiresIn:'24h'}).toString();
 }
 
 //overriding toJSON method of mongoose
