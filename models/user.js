@@ -44,12 +44,6 @@ const UserSchema = new mongoose.Schema({
         required: true,
         minlength: 6
     },
-    tokens: [{
-        token:{
-            type: String,
-            required: true
-        }
-    }],
     type:{
         type: String,
         required: true,
@@ -65,12 +59,7 @@ const UserSchema = new mongoose.Schema({
 UserSchema.methods.generateAuthToken = function(){
     const user = this
     const token = jwt.sign({_id: user._id.toHexString(),type:user.type,nic:user.nic},config.get('jwtPK'),{expiresIn:'24h'}).toString()
-
-    user.tokens.push({token})
-
-    return user.save().then(()=>{
-        return token
-    })
+    return token 
 }
 
 //overriding toJSON method of mongoose
