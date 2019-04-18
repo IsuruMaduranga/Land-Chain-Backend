@@ -42,7 +42,6 @@ router.post('/registerLand', allowAdmin, authenticate, async (req, res) => {
       return axios.post('http://localhost:3000/api/RegisterLand', {
         $class: "org.landchain.RegisterLand",
         id: req.body.id,
-        size: req.body.size,
         ownerId: req.body.ownerId
       })
     }).then(function (response) {

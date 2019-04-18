@@ -22,11 +22,18 @@ const AdSchema = new mongoose.Schema({
     city:{
         type:String,
         required:true,
-        minlength:1
+        minlength:1,
+        validate:{
+            validator: function(v){
+                return /^[A-Za-z]+$/.test(v);
+            },
+            message: 'City is not valid!'
+        }
     },
     phone:{
         type:String,
         required:true,
+        minlength:1,
         validate:{
             validator: function(v){
                 return /^[0-9]{10}$/.test(v);
@@ -37,6 +44,7 @@ const AdSchema = new mongoose.Schema({
     size:{
         type:String,
         required:true,
+        minlength:1,
         validate:{
             validator: function(v){
                 return /^[0-9]+$/.test(v);
@@ -47,6 +55,7 @@ const AdSchema = new mongoose.Schema({
     price:{
         type:String,
         required:true,
+        minlength:1,
         validate:{
             validator: function(v){
                 return /^[0-9]+$/.test(v);

@@ -13,6 +13,9 @@ const {allowAdmin} = require('../middleware/authenticate');
 const router = express.Router();
 
 router.post('/', allowUser, authenticate, async (req, res) => {
+  const data = _.pick(req.body,['landId','size','phone','price','city']);
+  data.ownerId = req.user.nic;
+  const ad = new Ad(data);
 
   axios.get(`http://localhost:3000/api/Land/${req.body.landId}`)
     .then(function (response) {
@@ -20,18 +23,19 @@ router.post('/', allowUser, authenticate, async (req, res) => {
     })
     .then(land=>{
         if(!(req.user.nic === land.owner.slice(-10,) & land.status === "VALID") ){
-            throw new Error('Unauthorized');
+            throw new Error('Forbidden');
         }
-        const data = _.pick(req.body,['landId','size','phone','price','city']);
-        data.ownerId = req.user.nic;
-        const ad = new Ad(data);
-
+        
         return ad.save();
     }).then(response=>{
         res.send(response);
     })
     .catch(function (error) {
-      res.status(400).json({message: error.message});
+      if(error.message==='Forbidden'){
+        res.status(403).json({message: error.message});
+      }else{
+        res.status(400).json({message: error.message});
+      }
     });
 
 });
