@@ -8,7 +8,7 @@
   "description": "Node.js backend for Land Chain the blockchain based land selling and registration platform",
   "main": "app.js",
   "scripts": {
-    "test": "jest --verbose",
+    "test": "jest --verbose --runInBand",
     "start": "node app.js"
   },
   "repository": {
