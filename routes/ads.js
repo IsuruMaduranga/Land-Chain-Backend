@@ -2,7 +2,6 @@ const express = require('express');
 const axios = require('axios');
 const _ = require('lodash');
 
-const {mongoose} = require('../db/db');
 const {Ad} = require('../models/ad');
 
 

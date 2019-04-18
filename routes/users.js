@@ -2,7 +2,6 @@ const express =  require('express');
 const _ = require('lodash');
 const axios = require('axios');
 
-const {mongoose} = require('../db/db');
 const {User} = require('../models/user');
 
 
@@ -35,6 +34,7 @@ router.post('/signup',async (req,res)=>{
         if(e.code=="11000"){
             res.status(400).send({message:"NIC or email already exists!"})
         }else{
+            console.log(e);
             res.status(400).send({message:e.message})
         }  
     });
@@ -64,10 +64,10 @@ router.post('/login',async (req,res)=>{
     const body = _.pick(req.body,['nic','password'])
     
     User.findByCredentials(body.nic,body.password).then(user=>{
-        user.generateAuthToken().then(token=>{
-            res.json({token:token});
-        })
+        let token = user.generateAuthToken();
+        res.json({token:token});
     }).catch(e=>{
+        console.log(e);
         res.status(400).json({message:"Invalid NIC or password!"});
     })
 

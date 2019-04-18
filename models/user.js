@@ -69,19 +69,6 @@ UserSchema.methods.toJSON = function(){
     return _.pick(userObject,['_id','nic','email','firstName','lastName','type'])
 }
 
-
-
-UserSchema.methods.removeToken =  function(token){
-    const user = this
-    return user.update({
-        $pull:{
-            tokens:{
-                token: token
-            }
-        }
-    });
-}
-
 UserSchema.statics.findByToken =  function(token){
     const User = this
     let decoded

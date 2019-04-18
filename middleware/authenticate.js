@@ -12,9 +12,10 @@ const allowAdmin = (req,res,next)=>{
 
 const authenticate = (req,res,next)=>{
     const token = req.header('x-auth');
-    
+    if(!token){
+        res.status(401).send({message:'Authentication needed'});
+    }
     User.findByToken(token).then((user)=>{
-        
         if(!user){
             throw new Error('Authentication needed');
         }else if(!req.allowedUsers.includes(user.type)){

@@ -1,15 +1,24 @@
 const request = require('supertest');
+const mongoose = require('mongoose');
+const 
 
-const server;
+let app;
+
+
 
 describe('/api/ads', () => {
-    beforEach(() => { server = require('../../app'); });
-    afterEach(()=>{server.close()});
+    beforeEach(()=>{app = require('../../app');});
+    afterEach(()=>{mongoose.disconnect();});
 
-    describe('GET /', () => {
-        it('should return all ads',async () => {
-            const res = request(server).get('/api/ads');
-            expect(res.status).toBe(200);
+    describe('GET /',() => {
+        it('should return 401 if client is not logged in',(done) => {
+            request(app).get('/api/ads').then(response=>{
+                expect(response.status).toBe(401);
+                done();
+            })
         });
     });
+
+
+
 });

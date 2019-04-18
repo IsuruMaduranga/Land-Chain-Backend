@@ -1,10 +1,14 @@
 {
   "name": "landchain-backend",
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "node"
+  },
   "version": "1.0.0",
   "description": "Node.js backend for Land Chain the blockchain based land selling and registration platform",
   "main": "app.js",
   "scripts": {
-    "test": "jest --verbose",
+    "test": "jest --verbose --detectOpenHandles",
     "start": "node app.js"
   },
   "repository": {
