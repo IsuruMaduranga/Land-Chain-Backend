@@ -21,7 +21,6 @@ const authenticate = (req,res,next)=>{
         }else if(!req.allowedUsers.includes(user.type)){
             throw new Error('Prohibited');
         }
-
         req.user = user
         req.token = token
         next()
@@ -30,7 +29,7 @@ const authenticate = (req,res,next)=>{
             res.status(401).send({message:e.message});
         }else if(e.message==='Prohibited'){
             res.status(403).send({message:e.message});
-        } 
+        }
     })
 }
 

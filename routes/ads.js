@@ -22,7 +22,7 @@ router.post('/', allowUser, authenticate, async (req, res) => {
         if(!(req.user.nic === land.owner.slice(-10,) & land.status === "VALID") ){
             throw new Error('Unauthorized');
         }
-        const data = _.pick(req.body,['landId','size','phone','price','city','description']);
+        const data = _.pick(req.body,['landId','size','phone','price','city']);
         data.ownerId = req.user.nic;
         const ad = new Ad(data);
 
@@ -77,7 +77,6 @@ router.delete('/:id', allowUser, authenticate, async (req, res) => {
     res.send(ad);    
   })
   .catch(e=>{
-    console.log(e);
     res.status(401)
     res.json({
       message: "Unauthorized"
