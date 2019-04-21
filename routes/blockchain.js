@@ -78,6 +78,23 @@ router.post('/changeOwner', allowAdmin, authenticate, async (req, res) => {
   });
 });
 
+router.post('/divideLand', allowAdmin, authenticate, async (req, res) => {
+
+  axios.post('http://localhost:3000/api/DivideLand', {
+      $class: "org.landchain.DivideLand",
+      oldLandId: req.body.landId,
+      newIds: req.body.newIds
+  }).then(response => {
+    res.send(response.data);
+  })
+  .catch(e => {
+    res.status(502).send({
+      message: e.message
+    });
+  });
+
+});
+
 router.get('/users', allowAdmin, authenticate, async (req, res) => {
 
   axios.get('http://localhost:3000/api/User')
