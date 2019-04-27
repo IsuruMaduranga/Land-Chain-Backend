@@ -1,6 +1,7 @@
 const express = require('express');
 const _ = require('lodash');
 const axios = require('axios');
+const config = require('config');
 
 const { User } = require('../models/user');
 
@@ -22,7 +23,7 @@ router.post('/signup', async (req, res) => {
 
     if (!err) {
 
-        axios.post('http://localhost:3000/api/CreateUser', {
+        axios.post(`${config.get(blockchain)}/api/CreateUser`, {
             $class: "org.landchain.CreateUser",
             NIC: req.body.nic
         })

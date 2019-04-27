@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const _ = require('lodash');
+const config = require('config');
 
 const { Ad } = require('../models/ad');
 
@@ -20,7 +21,7 @@ router.post('/', allowUser, authenticate, async (req, res) => {
   const err = ad.validateSync();
 
   if(!err){
-    axios.get(`http://localhost:3000/api/Land/${req.body.landId}`)
+    axios.get(`${config.get(blockchain)}/api/Land/${req.body.landId}`)
     .then(function (response) {
       return response.data;
     })
