@@ -40,7 +40,7 @@ app.use('/api/blockchain', blockchain);
 app.use('/api/ads', ads);
 
 
-const port = process.env.PORT || 4000;
+const port = config.get("port") || 4000;
 const server = app.listen(port, () => {
     console.log(`server started on port ${port}`);
 });

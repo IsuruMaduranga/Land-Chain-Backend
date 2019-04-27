@@ -21,7 +21,7 @@ router.post('/', allowUser, authenticate, async (req, res) => {
   const err = ad.validateSync();
 
   if(!err){
-    axios.get(`${config.get(blockchain)}/api/Land/${req.body.landId}`)
+    axios.get(`${config.get("blockchain")}/api/Land/${req.body.landId}`)
     .then(function (response) {
       return response.data;
     })

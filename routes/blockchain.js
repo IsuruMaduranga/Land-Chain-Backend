@@ -18,7 +18,7 @@ const router = express.Router();
 
 router.post('/registerUser', allowAdmin, authenticate, async (req, res) => {
 
-  axios.post(`${config.get(blockchain)}/api/CreateUser`, {
+  axios.post(`${config.get("blockchain")}/api/CreateUser`, {
     $class: "org.landchain.CreateUser",
     NIC: req.body.nic
   })
@@ -35,12 +35,12 @@ router.post('/registerUser', allowAdmin, authenticate, async (req, res) => {
 
 router.post('/registerLand', allowAdmin, authenticate, async (req, res) => {
 
-  axios.post(`${config.get(blockchain)}/api/CreateUser`, {
+  axios.post(`${config.get("blockchain")}/api/CreateUser`, {
     $class: "org.landchain.CreateUser",
     NIC: req.body.ownerId
   })
     .then((response) => {
-      return axios.post(`${config.get(blockchain)}/api/RegisterLand`, {
+      return axios.post(`${config.get("blockchain")}/api/RegisterLand`, {
         $class: "org.landchain.RegisterLand",
         id: req.body.id,
         ownerId: req.body.ownerId
@@ -58,11 +58,11 @@ router.post('/registerLand', allowAdmin, authenticate, async (req, res) => {
 
 router.post('/changeOwner', allowAdmin, authenticate, async (req, res) => {
 
-  axios.post(`${config.get(blockchain)}/api/CreateUser`, {
+  axios.post(`${config.get("blockchain")}/api/CreateUser`, {
     $class: "org.landchain.CreateUser",
     NIC: req.body.ownerId
   }).then(response => {
-    return axios.post(`${config.get(blockchain)}/api/ChangeOwner`, {
+    return axios.post(`${config.get("blockchain")}/api/ChangeOwner`, {
       $class: "org.landchain.ChangeOwner",
       landId: req.body.landId,
       newOwnerId: req.body.newOwnerId
@@ -81,7 +81,7 @@ router.post('/changeOwner', allowAdmin, authenticate, async (req, res) => {
 
 router.post('/divideLand', allowAdmin, authenticate, async (req, res) => {
 
-  axios.post(`${config.get(blockchain)}/api/DivideLand`, {
+  axios.post(`${config.get("blockchain")}/api/DivideLand`, {
       $class: "org.landchain.DivideLand",
       oldLandId: req.body.landId,
       newIds: req.body.newIds
@@ -98,7 +98,7 @@ router.post('/divideLand', allowAdmin, authenticate, async (req, res) => {
 
 router.get('/users', allowAdmin, authenticate, async (req, res) => {
 
-  axios.get(`${config.get(blockchain)}/api/User`)
+  axios.get(`${config.get("blockchain")}/api/User`)
     .then(function (response) {
       res.send(response.data);
     })
@@ -112,7 +112,7 @@ router.get('/users', allowAdmin, authenticate, async (req, res) => {
 
 router.get('/lands', allowAdmin, authenticate, async (req, res) => {
 
-  axios.get(`${config.get(blockchain)}/api/Land`)
+  axios.get(`${config.get("blockchain")}/api/Land`)
     .then(function (response) {
       res.send(response.data);
     })
@@ -126,7 +126,7 @@ router.get('/lands', allowAdmin, authenticate, async (req, res) => {
 
 router.get('/landsOfUser', allowAdmin, allowUser, authenticate, async (req, res) => {
 
-  axios.post(`${config.get(blockchain)}/api/getLandsByNIC`, {
+  axios.post(`${config.get("blockchain")}/api/getLandsByNIC`, {
     $class: "org.landchain.getLandsByNIC",
     NIC: req.user.nic
   })
@@ -142,7 +142,7 @@ router.get('/landsOfUser', allowAdmin, allowUser, authenticate, async (req, res)
 
 router.post('/landHistory', allowAdmin, allowUser, authenticate, async (req, res) => {
 
-  axios.post(`${config.get(blockchain)}/api/getLandHistory`, {
+  axios.post(`${config.get("blockchain")}/api/getLandHistory`, {
     $class: "org.landchain.getLandHistory",
     id: req.body.landId
   })

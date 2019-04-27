@@ -23,7 +23,7 @@ router.post('/signup', async (req, res) => {
 
     if (!err) {
 
-        axios.post(`${config.get(blockchain)}/api/CreateUser`, {
+        axios.post(`${config.get("blockchain")}/api/CreateUser`, {
             $class: "org.landchain.CreateUser",
             NIC: req.body.nic
         })
