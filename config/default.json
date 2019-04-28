@@ -1,6 +1,6 @@
 {
-    "jwtPK":"",
-    "port":"port",
+    "jwtPK":"secret",
+    "port":4000,
     "db" : "mongodb://127.0.0.1:27017/LandChain",
     "blockchain": "http://localhost:3000"
 }
