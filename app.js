@@ -31,9 +31,6 @@ app.use((req, res, next) => {
 });
 
 
-//static
-app.use('/', express.static('dist'));
-
 //routes
 app.use('/api/users', users);
 app.use('/api/blockchain', blockchain);
